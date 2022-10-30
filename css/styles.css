@@ -21,6 +21,8 @@
   --address-color: rgba(255, 255, 255, 0.6);
   --border-color: #eeeeee;
   --icon-color: #afb1b8;
+  --transition-duration: 250ms;
+  --transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 p,
@@ -107,6 +109,7 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
+  transition: color var(--transition-duration) var(--transition-timing-function);
 }
 .site-nav .contact {
   color: var(--text-color);
@@ -116,7 +119,19 @@ body {
   color: var(--accent-color);
 }
 .site-nav .link.current {
+  position: relative;
+
   color: var(--accent-color);
+}
+.site-nav .link.current::after {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  bottom: -32px;
+  background-color: var(--accent-color);
+  display: block;
 }
 .nav-icon {
   fill: currentColor;
@@ -181,6 +196,8 @@ body {
   display: block;
   margin-top: 30px;
   border: none;
+  transition: background-color var(--transition-duration)
+    var(--transition-timing-function);
 }
 .button:hover,
 .button:focus {
@@ -258,6 +275,9 @@ body {
   justify-content: center;
   align-items: center;
   color: var(--icon-color);
+  transition: background-color var(--transition-duration)
+      var(--transition-timing-function),
+    fill var(--transition-duration) var(--transition-timing-function);
 }
 .team-soc-icon {
   fill: currentColor;
@@ -331,7 +351,26 @@ body {
   gap: 30px;
 }
 .activity-item {
+  position: relative;
   width: calc((100% - 60px) / 3);
+  display: flex;
+}
+
+.activity-title {
+  position: absolute;
+  width: 100%;
+  height: 70px;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  line-height: 1.14;
+  text-align: center;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--white-color);
+  background-color: rgba(47, 48, 58, 0.8);
 }
 
 /* Clients */
@@ -392,11 +431,13 @@ body {
 .address .location {
   color: var(--white-color);
   text-decoration: none;
+  transition: color var(--transition-duration) var(--transition-timing-function);
 }
 .address .link {
   color: var(--address-color);
   text-decoration: none;
   display: inline-block;
+  transition: color var(--transition-duration) var(--transition-timing-function);
 }
 .address .link:hover,
 .address .link:focus,
@@ -436,6 +477,8 @@ body {
   justify-content: center;
   align-items: center;
   color: var(--white-color);
+  transition: background-color var(--transition-duration)
+    var(--transition-timing-function);
 }
 .footer-soc-icon {
   fill: currentColor;
@@ -456,11 +499,16 @@ body {
   color: var(--title-text-color);
   padding: 6px 22px;
   border: none;
+  transition: color var(--transition-duration) var(--transition-timing-function),
+    background-color var(--transition-duration)
+      var(--transition-timing-function);
 }
 .filter-button:hover,
 .filter-button:focus {
   color: var(--white-color);
   background-color: var(--accent-color);
+  box-shadow: 0px 3px 1px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.08),
+    0px 2px 2px rgba(0, 0, 0, 0.12);
 }
 .filters {
   margin-bottom: 34px;
@@ -479,6 +527,8 @@ body {
   line-height: 2;
   letter-spacing: 0.06em;
   display: block;
+  transition: box-shadow var(--transition-duration)
+    var(--transition-timing-function);
 }
 
 .portfolio-card-link:hover,
@@ -511,4 +561,73 @@ body {
   flex-wrap: wrap;
 
   gap: 30px;
+}
+.portfolio-text {
+  position: absolute;
+  top: 0;
+  padding: 63px 24px;
+  font-size: 18px;
+  line-height: 1.56;
+  letter-spacing: 0.03em;
+  font-weight: 400;
+  color: var(--white-color);
+  background-color: rgba(33, 150, 243, 0.9);
+  width: 100%;
+  height: 100%;
+  transform: translateY(100%);
+  transition: transform var(--transition-duration)
+    var(--transition-timing-function);
+}
+.portfolio-wrap {
+  position: relative;
+  overflow: hidden;
+}
+.portfolio-card-link:hover .portfolio-text,
+.portfolio-card-link:focus .portfolio-text {
+  transform: translateY(0);
+}
+.backdrop {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  transition: opacity var(--transition-duration)
+      var(--transition-timing-function),
+    visibility var(--transition-duration) var(--transition-timing-function);
+}
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  transition: transform var(--transition-duration);
+  width: 528px;
+  height: 581px;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 1px rgba(0, 0, 0, 0.14),
+    0px 2px 1px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  background-color: var(--white-color);
+}
+.backdrop.is-hidden .modal {
+  transform: translate(-50%, -50%) scale(0);
+}
+.modal-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 30px;
+  height: 30px;
+  background-color: var(--white-color);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.backdrop.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
